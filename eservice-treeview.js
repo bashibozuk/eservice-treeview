@@ -3,13 +3,7 @@
 
     angular
         .module('eservice.treeview', [])
-        .factory('WidgetCounter', function() {
-            var _counter = 0;
-            return {
-
-            };
-        }).directive('eserviceTreeView', ['$compile', function($compile){
-            console.log('Directive registered');
+        .directive('eserviceTreeView', ['$compile', function($compile){
             return {
                 restrict: 'A',
                 link: function (scope, element, attrs) {
@@ -27,6 +21,10 @@
                         return (this.expandAll || node.expanded) && node.children && node.children.length;
                     };
 
+                    scope[_dataHolderName]['showCheckboxes'] = typeof scope[_dataHolderName]['showCheckboxes'] == 'function' ? scope[_dataHolderName]['showCheckboxes'] : function (node) {
+                        return this.checkboxesMode && (!node.children || !node.children.length);
+                    }
+
                     var _onChbClick = attrs.onCheckboxClick || 'onCheckboxClick';
                     scope[_onChbClick] = typeof scope[_onChbClick] == 'function' ? scope[_onChbClick] : angular.noop;
                     var _treeData = attrs.scopeTreeData;
@@ -41,7 +39,7 @@
                                                 '\'et-caret\':true' +
                                             '}"></span>' +
                                             // checkboxes
-                                            '<input type="checkbox" data-ng-model="node.checked" class="et-checkbox" ng-show="' + scope[_dataHolderName]['checkboxesMode'] + '" ng-click="' + _onChbClick + '(node)">'+
+                                            '<input type="checkbox" data-ng-model="node.checked" class="et-checkbox margin-right-08em" ng-show="' + _dataHolderName + '.showCheckboxes(node)' + '" ng-click="' + _onChbClick + '(node)">'+
                                             // title
                                             '{{node.title}}' +
                                         '</div>' +
