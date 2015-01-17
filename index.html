@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="fontawesome/font-awesome.min.css">
+    <link rel="stylesheet" href="eservice-treeview.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.9/angular.min.js"></script>
+    <script src="eservice-treeview.js"></script>
+    <title>Angular Js Tree view</title>
+    <script type="text/javascript">
+
+        angular.module('MyModule', ['eservice.treeview']).controller('TreeViewController',  function($scope) {
+            $scope.data = [
+                {
+                    id: 1,
+                    title: 'Category 1',
+                    children : [
+                        {id: 11, title: 'Category 1.1', children:[
+                            {
+                                id: 111,
+                                title: 'Category 1.1.1'
+                            }
+                        ]},
+                        {id: 12, title: 'Category 1.2', children:[ {
+                            id: 121,
+                            title: 'Category 1.2.1'
+                        }]},
+                        {id: 13, title: 'Category 1.3', children:[]},
+                        {id: 14, title: 'Category 1.4', children:[]},
+                        {id: 15, title: 'Category 1.5', children:[]},
+                    ]
+                }
+            ];
+
+            $scope.onCheckboxClick = function (node) {
+                console.log(node);
+            }
+        })
+
+    </script>
+</head>
+<body>
+<div ng-app="MyModule">
+
+    <div ng-controller="TreeViewController">
+        {{data}}
+        <div eservice-tree-view="true" scope-tree-data="data" checkboxes="true" expand-all="false" on-checkbox-click="onCheckboxClick"></div>
+    </div>
+
+</div>
+</body>
+</html>
